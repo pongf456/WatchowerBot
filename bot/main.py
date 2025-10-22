@@ -16,10 +16,19 @@ class Bot:
         self.app = Application.builder().token(self.TOKEN).build()
         self.commands = CommandHandler(self.app.bot)
         self.handler = EventHandler(self.commands.notify)
+    async def start(self):
         self.app.add_handlers([
             CM('start',self.commands.start),
             CM('enable',self.commands.enable),
             CM('disable',self.commands.disable)
         ])
-    def start(self):
-        self.app.run_polling()
+        await self.app.initialize()
+        if(self.app.post_init):
+            await self.app.post_init(self.app)
+        if(self.app.updater):
+            await self.app.updater.start_polling()
+        await self.app.start()
+        print('Started bot...')
+    async def stop(self):
+        await self.app.stop()
+        print('Stopped bot...')

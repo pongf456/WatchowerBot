@@ -16,6 +16,7 @@ class Scheduler:
             return
         return asyncio.run_coroutine_threadsafe(fn(),self._main_loop_)
     def _schedule_bucle_(self):
+        print('Started scheduler task.')
         while self._running_:
             schedule.run_pending()
             time.sleep(1)

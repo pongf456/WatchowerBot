@@ -9,41 +9,37 @@ class CommandHandler:
         self.bot = bot
     async def start(self,update:Update,ctx:ContextTypes.DEFAULT_TYPE):
         response = (
-            "*👋 ¡Hola\! Soy Watchtower Bot\!* \n"
-            "Tu vigilante de gremio para Lords Mobile\.\n\n"
-            "Mi misión es enviarte alertas de *Infierno* y otros eventos sin que tengas que mirar el juego\. \n\n"
-            "Para empezar a recibir notificaciones \(incluyendo el aviso \), usa el comando:\n"
-            "➡️ \/enable \n\n"
-            "Para silenciarme:\n"
-            "➡️ \/disable"
+        "<b>👋 ¡Hola! Soy Watchtower Bot!</b> \n"
+        "Mi misión es enviarte alertas de <i>Infierno</i> prueba /enable para activar las notificaciones y /disable para desactivarlas"
         )
         if not update.message:
             return
-        await update.message.reply_markdown_v2(response)
+        await update.message.reply_html(response)
     async def enable(self,update:Update,ctx:ContextTypes.DEFAULT_TYPE):
         response = (
-        "*🔔 Notificaciones Activadas 🔔* \n"
-        "🤖 El bot **Watchtower** ha iniciado su vigilancia\. \n"
-        "Estás recibiendo:"
-        "\• Alertas de **Infierno** \(de cada hora\)\. \n"
-        "\• Avisos de **Reunión** de Gremio\. \n"
-        "Para silenciarme, usa el comando \/disable \n"
-        )
+                    "<b>🔔 Notificaciones Activadas 🔔</b> \n"
+                    "🤖 El bot <b>Watchtower</b> ha iniciado su vigilancia. \n"
+                    "Estás recibiendo:"
+                    "\n&#8226; Alertas de <b>Infierno</b> (de cada hora). \n"
+                    "&#8226; Avisos de <b>Reunión</b> de Gremio. \n"
+                    "Para silenciarme, usa el comando \n /disable \n"
+                )
         if update.message and not update.message.chat_id in self.clients:
             self.clients.append(update.message.chat_id)
         if not update.message:
             return
-        await update.message.reply_markdown_v2(response)
+        await update.message.reply_html(response)
     async def disable(self,update:Update,ctx:ContextTypes.DEFAULT_TYPE):
         response = (
-        "*🔔 Notificaciones Desactivadas 🔔* \n"
-        "🤖 El bot **Watchtower** ha detenido su vigilancia\. \n"
-        )
+                    "<b>🔕 Notificaciones Desactivadas 🔕</b> \n"
+                    "🤖 El bot <b>Watchtower</b> ha detenido su vigilancia. \n"
+                    "Para volver a activarlas, usa el comando /enable."
+                )
         if update.message and update.message.chat_id in self.clients:
             self.clients.remove(update.message.chat_id)
         if not update.message:
             return
-        await update.message.reply_markdown_v2(response)
+        await update.message.reply_html(response)
         
     async def notify(self,message:str):
         tasks = []
